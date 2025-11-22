@@ -13,6 +13,11 @@ collector:
     sensors: telemetry.sensors.v1
     hubs: telemetry.hubs.v1
 
+grpc:
+  server:
+    port: 59091
+    reflection-service-enabled: true
+
 logging:
   level:
     root: INFO
