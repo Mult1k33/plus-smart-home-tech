@@ -15,7 +15,7 @@ collector:
 
 grpc:
   server:
-    port: 9090
+    port: 59091
     reflection-service-enabled: true
 
 logging:
