@@ -33,3 +33,19 @@ services:
                              --partitions 1 --replication-factor 1 --if-not-exists \
                              --bootstrap-server kafka:29092'"
     init: true
+
+  postgres:
+      image: postgres:15
+      container_name: postgres-smarthome
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: plus-smart-home-tech
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: password
+      ports:
+        - "5432:5432"
+      volumes:
+        - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:

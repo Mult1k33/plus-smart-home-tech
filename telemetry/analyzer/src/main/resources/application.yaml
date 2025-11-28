@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: analyzer
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/plus-smart-home-tech
+    username: postgres
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      continue-on-error: false
+      separator: ";"
+      encoding: UTF-8
+
+analyzer:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    consumer:
+      group-id: analyzer-snapshots-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: ru.yandex.practicum.deserializer.SensorsSnapshotDeserializer
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+
+  topics:
+    snapshots: telemetry.snapshots.v1
+    hub-events: telemetry.hubs.v1
+
+grpc:
+  client:
+    hub-router:
+      address: 'static://localhost:59090'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
+    ru.yandex.practicum: DEBUG
