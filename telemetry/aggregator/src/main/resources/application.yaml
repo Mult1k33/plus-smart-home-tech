@@ -2,27 +2,23 @@ spring:
   application:
     name: aggregator
 
-  kafka:
-    bootstrap-servers: localhost:9092
+  config:
+    import: "configserver:"
 
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        useRandomPolicy: true
+        max-interval: 6000
+      discovery:
+        enabled: true
+        serviceId: config-server
 
-    consumer:
-      group-id: aggregator-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: ru.yandex.practicum.deserializer.SensorEventDeserializer
-      auto-offset-reset: earliest
-      enable-auto-commit: false
-      max-poll-records: 100
+server:
+  port: 0
 
-aggregator:
-  topics:
-    sensors: telemetry.sensors.v1
-    snapshots: telemetry.snapshots.v1
-
-logging:
-  level:
-    root: INFO
-    org.springframework.kafka: INFO
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
