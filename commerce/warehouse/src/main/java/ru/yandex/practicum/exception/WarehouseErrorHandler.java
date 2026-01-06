@@ -24,6 +24,17 @@ public class WarehouseErrorHandler {
                 .build();
     }
 
+    @ExceptionHandler(ProductInShoppingCartNotInWarehouseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleProductNotInWarehouse(ProductInShoppingCartNotInWarehouseException e) {
+        log.warn("Product not in warehouse: {}", e.getMessage());
+        return ErrorResponse.builder()
+                .error("PRODUCT_NOT_IN_WAREHOUSE")
+                .message("Product not in warehouse")
+                .detail(e.getMessage())
+                .build();
+    }
+
     @ExceptionHandler(ProductInShoppingCartLowQuantityInWarehouseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleLowQuantity(ProductInShoppingCartLowQuantityInWarehouseException e) {
